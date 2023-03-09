@@ -31,5 +31,3 @@ if ctx.video_processor:
     ctx.video_processor.threshold1 = st.slider("Threshold1", min_value=0, max_value=1000, step=1, value=100)
     ctx.video_processor.threshold2 = st.slider("Threshold2", min_value=0, max_value=1000, step=1, value=200)
    
-if __name__ == "__main__":
-    main()
