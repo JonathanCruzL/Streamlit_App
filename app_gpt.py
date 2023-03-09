@@ -1,20 +1,25 @@
 import cv2
 import streamlit as st
+import streamlit_webrtc as webrtc
 
-def main():
+def app():
     st.title("Aplicación de cámara en tiempo real")
-    run_camera = st.button("Iniciar cámara")
-    video_display = st.empty()
 
-    if run_camera:
-        cap = cv2.VideoCapture(0)
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                break
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            video_display.image(frame)
-        cap.release()
+    webrtc_streamer = webrtc.Streamer(
+        key="camera",
+        type="video",
+        source=webrtc.VideoTransformerBase(
+            fps=24,
+            transform_func=lambda frame: cv2.cvtColor(frame, cv2.COLOR_BGR2RGB),
+        ),
+    )
+
+    if not webrtc_streamer:
+        st.warning("No se ha podido acceder a la cámara.")
+        return
+
+    image = webrtc_streamer.image_in_color
+    st.image(image, use_column_width=True)
 
 if __name__ == "__main__":
-    main()
+    app()
