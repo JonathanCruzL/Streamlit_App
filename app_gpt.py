@@ -6,7 +6,7 @@ from streamlit_webrtc import webrtc_streamer as webStreamer
 def app():
     st.title("Aplicación de cámara en tiempo real")
 
-    webrtc_streamer = webStreamer.Streamer(
+    webrtc_streamer = webStreamer(
         key="camera",
         type="video",
         source=webrtc.VideoTransformerBase(
